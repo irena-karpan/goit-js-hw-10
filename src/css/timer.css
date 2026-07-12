@@ -14,21 +14,27 @@
   padding: 8px 16px;
   outline: transparent;
 
-  transition-property: border-color;
+  transition-property: border-color, color;
   transition-duration: 250ms;
   transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
-#datetime-picker:hover {
+#datetime-picker:not([disabled]):hover {
   border-color: #000;
 }
-#datetime-picker:active {
+#datetime-picker:focus {
   border-color: #4e75ff;
+}
+#datetime-picker:disabled {
+  border-color: #808080;
+  color: #808080;
+  cursor: not-allowed;
 }
 
 button[data-start]:disabled {
   color: #989898;
   background-color: #cfcfcf;
+  cursor: not-allowed;
 }
 button[data-start] {
   font-family: 'Montserrat', sans-serif;
@@ -49,7 +55,8 @@ button[data-start] {
   transition-duration: 250ms;
   transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
-button[data-start]:hover {
+button[data-start]:not([disabled]):hover,
+button[data-start]:not([disabled]):focus {
   background-color: #6c8cff;
 }
 
