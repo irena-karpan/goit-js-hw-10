@@ -85,3 +85,7 @@ button[data-start]:not([disabled]):focus {
   color: #2e2f42;
   text-transform: uppercase;
 }
+
+.iziToast > .iziToast-close {
+  filter: invert(1);
+}

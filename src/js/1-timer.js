@@ -14,13 +14,12 @@ button.disabled = true;
 
 const input = document.querySelector('#datetime-picker');
 
-const refs = {
+const timerRefs = {
   days: document.querySelector("[data-days]"),
   hours: document.querySelector("[data-hours]"),
   minutes: document.querySelector("[data-minutes]"),
   seconds: document.querySelector("[data-seconds]"),
 };
-
 
 let userSelectedDate = null;
 
@@ -30,26 +29,11 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
-    if ((selectedDates[0].getTime() - Date.now()) < 0) {
-      // window.alert('Please choose a date in the future');
-
-      iziToast.show({
-  title: 'Error',
-  message: 'Please choose a date in the future',
-  position: 'topRight',
-
-  backgroundColor: '#EF4040',
-  titleColor: '#FFFFFF',
-  messageColor: '#FFFFFF',
-  iconUrl:'../img/error.svg',
-  iconColor: '#FFFFFF',
-  
-  progressBar: false,
-  timeout: 5000,
-      });
-      
+    // console.log(selectedDates[0]);
+    if ((selectedDates[0].getTime() < Date.now())) {
+      showErrorWindow();
       button.disabled = true;
+
     } else {
       userSelectedDate = selectedDates[0];
       button.disabled = false;
@@ -61,11 +45,11 @@ flatpickr('#datetime-picker', options);
 
 button.addEventListener('click', timer);
 
-function timer(event) {
+function timer() {
   button.disabled = true;
   input.disabled = true;
   
- 
+  updateTimer(convertMs(userSelectedDate.getTime() - Date.now()));
 
   const interval = setInterval(() => {
     const deltaTime = userSelectedDate.getTime() - Date.now();
@@ -76,13 +60,7 @@ function timer(event) {
       return;
   }
 
-    const formatedDate = addLeadingZero(convertMs(deltaTime));
-
-    refs.days.textContent = formatedDate.day;
-    refs.hours.textContent = formatedDate.hour;
-    refs.minutes.textContent = formatedDate.minute;
-    refs.seconds.textContent = formatedDate.second;
-
+    updateTimer(convertMs(deltaTime));
     
   }, 1000);
   
@@ -96,23 +74,45 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = Math.floor(ms / day);
+  const days = addLeadingZero(Math.floor(ms / day));
   // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
   // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
   // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
 }
 
 
-function addLeadingZero({days, hours, minutes, seconds}){
-  const day = days.toString().padStart(2, "0");
-  const hour = hours.toString().padStart(2, "0");
-  const minute = minutes.toString().padStart(2, "0");
-  const second = seconds.toString().padStart(2, "0");
+function addLeadingZero(value) {
   
-  return { day, hour, minute, second };
+  return value.toString().padStart(2, 0);
+
+};
+
+function showErrorWindow() {
+  iziToast.error({
+  
+    title: 'Error',
+    message: 'Please choose a date in the future',
+    position: 'topRight',
+
+    backgroundColor: '#EF4040',
+    titleColor: '#FFFFFF',
+    messageColor: '#FFFFFF',
+    iconUrl:'./img/error.svg',
+    iconColor: '#FFFFFF',
+  
+    progressBar: false,
+    timeout: 5000,
+      });
+}
+
+function updateTimer({days, hours, minutes, seconds}){
+    timerRefs.days.textContent = days;
+    timerRefs.hours.textContent = hours;
+    timerRefs.minutes.textContent = minutes;
+    timerRefs.seconds.textContent = seconds;
 };
