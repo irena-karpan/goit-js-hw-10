@@ -41,7 +41,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     // console.log(selectedDates[0]);
-    if ((selectedDates[0].getTime() < Date.now())) {
+    if ((selectedDates[0].getTime() <= Date.now())) {
       showErrorWindow();
       button.disabled = true;
 
@@ -66,15 +66,19 @@ function timer() {
     const deltaTime = userSelectedDate.getTime() - Date.now();
     
     if (deltaTime <= 0) {
+      updateTimer(convertMs(0));
+
+
     clearInterval(interval);
       input.disabled = false;
+      userSelectedDate = null;
+
       return;
   }
 
     updateTimer(convertMs(deltaTime));
     
   }, 1000);
-  
 }
 
 function convertMs(ms) {
