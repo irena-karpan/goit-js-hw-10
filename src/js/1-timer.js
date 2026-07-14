@@ -1,3 +1,5 @@
+'use strict'
+
 // Описаний в документації
 import flatpickr from "flatpickr";
 // Додатковий імпорт стилів
@@ -105,7 +107,7 @@ function showErrorWindow() {
     iconUrl:'./img/error.svg',
     iconColor: '#FFFFFF',
   
-    progressBar: false,
+    // progressBar: false,
     timeout: 5000,
       });
 }
