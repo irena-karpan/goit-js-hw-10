@@ -8,7 +8,15 @@ import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 // Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
+import errorIcon from '../img/error.svg';
 
+const iziOptions = {
+    position: 'topRight',
+    titleColor: '#FFFFFF',
+    messageColor: '#FFFFFF',
+    iconColor: '#FFFFFF',
+    timeout: 5000,
+};
 
 
 const button = document.querySelector('[data-start]');
@@ -96,19 +104,12 @@ function addLeadingZero(value) {
 
 function showErrorWindow() {
   iziToast.error({
-  
+
+    ...iziOptions,
     title: 'Error',
     message: 'Please choose a date in the future',
-    position: 'topRight',
-
     backgroundColor: '#EF4040',
-    titleColor: '#FFFFFF',
-    messageColor: '#FFFFFF',
-    iconUrl:'./img/error.svg',
-    iconColor: '#FFFFFF',
-  
-    // progressBar: false,
-    timeout: 5000,
+    iconUrl:errorIcon,
       });
 }
 

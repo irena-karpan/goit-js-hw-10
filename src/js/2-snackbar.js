@@ -4,6 +4,9 @@ import iziToast from "izitoast";
 // Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
 
+import errorIcon from '../img/error.svg';
+import okIcon from '../img/ok.svg';
+
 
 const form = document.querySelector('form');
 
@@ -49,7 +52,7 @@ function showResolve(delay) {
         title: "OK",
         message: `Fulfilled promise in ${delay}ms`,
         backgroundColor:'#59a10d',
-        iconUrl:'./img/ok.svg',
+        iconUrl: okIcon,
     });
 }
 
@@ -59,7 +62,7 @@ function showError(delay) {
         title: "Error",
         message: `Rejected promise in ${delay}ms`,
         backgroundColor:'#EF4040',
-        iconUrl:'./img/error.svg',
+        iconUrl: errorIcon,
     });
 }
 
