@@ -43,6 +43,8 @@ const options = {
     // console.log(selectedDates[0]);
     if ((selectedDates[0].getTime() <= Date.now())) {
       showErrorWindow();
+
+      userSelectedDate = null;
       button.disabled = true;
 
     } else {
